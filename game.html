@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Battleship</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <style>
+        .boat {
+            background-color: green;
+        }
+    </style>
+</head>
+
+<body class="container">
+    <h1 class="text-center">Battleship</h1>
+    <section class="col-md-4">
+        <h2 class="">My Boats</h2>
+        <table id="boats" class="table table-bordered"></table>
+    </section>
+    <script>
+        "use strict";
+        const tableSize = 5;
+        let boats = [];
+
+        function newBoatsHandler(x, y) {
+            return function() {
+                for (let b of boats) {
+                    if (b.x == x && b.y == y) {
+                        return
+                    }
+                }
+                boats.push({
+                    x: x,
+                    y: y,
+                });
+                displayBoats();
+            };
+        }
+
+        function displayBoats() {
+            let table = document.querySelector("#boats");
+            table.innerHTML = "";
+            for (let y = 0; y < tableSize; y++) {
+                let tr = document.createElement("tr");
+                for (let x = 0; x < tableSize; x++) {
+                    let td = document.createElement("td");
+                    td.id = "cell" + x + y;
+                    td.textContent = `(${x}, ${y})`;
+                    td.addEventListener("click", newBoatsHandler(x, y));
+                    tr.appendChild(td);
+                }
+                table.appendChild(tr);
+            }
+            for (let boat of boats) {
+                let td = document.querySelector("#cell" + boat.x + boat.y);
+                td.classList.add("boat");
+            }
+        }
+        displayBoats();
+    </script>
+</body>
+
+</html>
